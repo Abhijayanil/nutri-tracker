@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutri Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .diet-plan {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nutri Tracker</h1>
+        <h2>BMI Calculator & Daily Diet Plan</h2>
+        <form id="bmiForm">
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <label for="age">Age (years):</label>
+            <input type="number" id="age" required>
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" required>
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" required>
+            <input type="submit" value="Calculate BMI">
+        </form>
+        <div class="result" id="result"></div>
+        <div class="diet-plan" id="dietPlan"></div>
+    </div>
+
+    <script>
+        document.getElementById("bmiForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            calculateBMI();
+        });
+
+        function calculateBMI() {
+            var gender = document.getElementById("gender").value;
+            var age = parseInt(document.getElementById("age").value);
+            var height = parseFloat(document.getElementById("height").value) / 100; // Convert height to meters
+            var weight = parseFloat(document.getElementById("weight").value);
+            var bmi = weight / (height * height);
+            var resultElement = document.getElementById("result");
+            var dietPlanElement = document.getElementById("dietPlan");
+
+            resultElement.innerHTML = "Your BMI is: " + bmi.toFixed(1);
+
+            // Diet Plan based on BMI and gender (This is a simplified version)
+            var dietPlan = "";
+            if (bmi < 18.5) {
+                dietPlan = "Underweight: Include more proteins and healthy fats in your diet. Here is a suggested daily food plan:\n" +
+                           "Breakfast: Scrambled eggs with avocado\n" +
+                           "Lunch: Grilled chicken salad\n" +
+                           "Dinner: Baked salmon with quinoa and steamed vegetables";
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                dietPlan = "Normal weight: Maintain a balanced diet and exercise regularly. Here is a suggested daily food plan:\n" +
+                           "Breakfast: Greek yogurt with berries and almonds\n" +
+                           "Lunch: Turkey sandwich on whole grain bread with a side salad\n" +
+                           "Dinner: Stir-fried tofu with brown rice and mixed vegetables";
+            } else if (bmi >= 25 && bmi < 29.9) {
+                dietPlan = "Overweight: Reduce calorie intake and increase physical activity. Here is a suggested daily food plan:\n" +
+                           "Breakfast: Oatmeal with sliced banana\n" +
+                           "Lunch: Grilled vegetable wrap with hummus\n" +
+                           "Dinner: Baked chicken breast with sweet potato and broccoli";
+            } else {
+                dietPlan = "Obese: Consult a healthcare professional for a personalized diet plan. Here is a suggested daily food plan:\n" +
+                           "Breakfast: Whole grain toast with avocado and poached eggs\n" +
+                           "Lunch: Quinoa salad with grilled shrimp\n" +
+                           "Dinner: Grilled steak with roasted potatoes and green beans";
+            }
+
+            dietPlanElement.innerHTML = "<h3>Daily Diet Plan</h3><ul><li>" + dietPlan.replace(/\n/g, "</li><li>") + "</li></ul>";
+        }
+    </script>
+</body>
+</html>
